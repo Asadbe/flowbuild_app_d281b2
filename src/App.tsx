@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './index.css';
+import { ThemeProvider } from '@/context/ThemeContext';
 import { Navbar } from '@/components/layout/Navbar';
 import { HeroSection } from '@/sections/HeroSection';
 import { FeaturesSection } from '@/sections/FeaturesSection';
@@ -11,7 +12,7 @@ import { CTASection } from '@/sections/CTASection';
 import { FooterSection } from '@/sections/FooterSection';
 import { ArrowUp } from 'lucide-react';
 
-export default function App() {
+function AppInner() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showTop, setShowTop] = useState(false);
 
@@ -27,7 +28,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen" style={{ background: '#0a0d12' }}>
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* Scroll progress bar */}
       <div
         id="scroll-progress"
@@ -59,5 +60,13 @@ export default function App() {
         </button>
       )}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppInner />
+    </ThemeProvider>
   );
 }

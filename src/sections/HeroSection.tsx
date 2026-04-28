@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Play, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTheme } from '@/context/ThemeContext';
 
 const COMPANY_LOGOS = [
   'Shopify', 'Stripe', 'Notion', 'Figma', 'HubSpot', 'Vercel', 'Airtable', 'Linear',
@@ -24,6 +25,9 @@ const letterVariants = {
 const HEADLINE_LINES = ['Build apps, tools', '& workflows —'];
 
 export function HeroSection() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   const scrollToCTA = () => {
     document.querySelector('#cta')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -31,13 +35,19 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center pt-16 overflow-hidden hero-texture"
-      style={{ background: '#0a0d12' }}
+      className="relative min-h-screen flex items-center pt-16 overflow-hidden hero-texture transition-colors duration-300"
+      style={{ background: isDark ? '#0a0d12' : '#f4f6f9' }}
     >
       {/* Radial glow */}
       <div className="absolute inset-0 radial-glow pointer-events-none" />
-      <div className="absolute top-1/3 right-0 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-cyan-400/4 blur-[100px] pointer-events-none" />
+      <div
+        className="absolute top-1/3 right-0 w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none"
+        style={{ background: isDark ? 'rgba(0,229,160,0.05)' : 'rgba(0,180,120,0.07)' }}
+      />
+      <div
+        className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full blur-[100px] pointer-events-none"
+        style={{ background: isDark ? 'rgba(0,200,232,0.04)' : 'rgba(0,180,200,0.06)' }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-0 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -109,7 +119,7 @@ export function HeroSection() {
               <Button
                 size="lg"
                 variant="outline"
-                className="font-semibold text-base px-8 h-13 border-white/15 hover:border-primary/30"
+                className="font-semibold text-base px-8 h-13"
               >
                 <Play className="mr-2 w-4 h-4 text-primary" fill="currentColor" />
                 Watch 2-min Demo
@@ -147,14 +157,31 @@ export function HeroSection() {
           >
             <div className="animate-float relative">
               {/* Browser frame */}
-              <div className="w-full max-w-[560px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
-                style={{ background: '#111620' }}>
+              <div
+                className="w-full max-w-[560px] rounded-2xl overflow-hidden border shadow-2xl transition-colors duration-300"
+                style={{
+                  background: isDark ? '#111620' : '#ffffff',
+                  borderColor: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)',
+                }}
+              >
                 {/* Browser bar */}
-                <div className="flex items-center gap-2 px-4 py-3 border-b border-white/8" style={{ background: '#0d1018' }}>
+                <div
+                  className="flex items-center gap-2 px-4 py-3 border-b transition-colors duration-300"
+                  style={{
+                    background: isDark ? '#0d1018' : '#f0f2f5',
+                    borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+                  }}
+                >
                   <span className="w-3 h-3 rounded-full bg-red-500/70" />
                   <span className="w-3 h-3 rounded-full bg-amber-400/70" />
                   <span className="w-3 h-3 rounded-full bg-emerald-400/70" />
-                  <div className="ml-3 flex-1 h-6 rounded-md bg-white/5 border border-white/8 flex items-center px-3">
+                  <div
+                    className="ml-3 flex-1 h-6 rounded-md border flex items-center px-3 transition-colors duration-300"
+                    style={{
+                      background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)',
+                      borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+                    }}
+                  >
                     <span className="text-[10px] text-muted-foreground/50">app.flowbuild.io/canvas</span>
                   </div>
                 </div>
@@ -163,16 +190,37 @@ export function HeroSection() {
                   {/* Toolbar */}
                   <div className="flex gap-2 mb-4">
                     {['Button', 'Input', 'Table', 'Chart', 'Form'].map((t) => (
-                      <span key={t} className="px-2.5 py-1 rounded text-[10px] font-medium text-muted-foreground border border-white/8 bg-white/4 cursor-default">{t}</span>
+                      <span
+                        key={t}
+                        className="px-2.5 py-1 rounded text-[10px] font-medium text-muted-foreground border cursor-default transition-colors duration-300"
+                        style={{
+                          borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
+                          background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)',
+                        }}
+                      >
+                        {t}
+                      </span>
                     ))}
                   </div>
                   {/* Component grid */}
                   <div className="grid grid-cols-3 gap-3">
                     <div className="col-span-2 rounded-xl border border-primary/20 bg-primary/5 p-4 flex flex-col gap-2">
                       <div className="h-2.5 w-16 rounded bg-primary/30" />
-                      <div className="h-1.5 w-full rounded bg-white/10" />
-                      <div className="h-1.5 w-3/4 rounded bg-white/10" />
-                      <div className="mt-2 h-24 rounded-lg bg-white/5 border border-white/8 flex items-center justify-center">
+                      <div
+                        className="h-1.5 w-full rounded"
+                        style={{ background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)' }}
+                      />
+                      <div
+                        className="h-1.5 w-3/4 rounded"
+                        style={{ background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)' }}
+                      />
+                      <div
+                        className="mt-2 h-24 rounded-lg border flex items-center justify-center transition-colors duration-300"
+                        style={{
+                          background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                          borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+                        }}
+                      >
                         <div className="w-20 h-12 rounded border border-primary/20 bg-primary/8 flex flex-col gap-1 p-2">
                           <div className="h-1 w-full rounded bg-primary/40" />
                           <div className="h-1 w-2/3 rounded bg-primary/20" />
@@ -180,26 +228,57 @@ export function HeroSection() {
                       </div>
                     </div>
                     <div className="flex flex-col gap-3">
-                      <div className="rounded-xl border border-white/10 bg-white/4 p-3 flex flex-col gap-2">
+                      <div
+                        className="rounded-xl border p-3 flex flex-col gap-2 transition-colors duration-300"
+                        style={{
+                          borderColor: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)',
+                          background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.02)',
+                        }}
+                      >
                         <div className="w-6 h-6 rounded-lg bg-primary/20 flex items-center justify-center">
                           <span className="text-primary text-[10px]">⚡</span>
                         </div>
-                        <div className="h-1.5 w-full rounded bg-white/15" />
-                        <div className="h-1.5 w-2/3 rounded bg-white/8" />
+                        <div
+                          className="h-1.5 w-full rounded"
+                          style={{ background: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.10)' }}
+                        />
+                        <div
+                          className="h-1.5 w-2/3 rounded"
+                          style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
+                        />
                       </div>
-                      <div className="rounded-xl border border-white/10 bg-white/4 p-3 flex flex-col gap-2">
+                      <div
+                        className="rounded-xl border p-3 flex flex-col gap-2 transition-colors duration-300"
+                        style={{
+                          borderColor: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)',
+                          background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.02)',
+                        }}
+                      >
                         <div className="w-6 h-6 rounded-lg bg-cyan-400/20 flex items-center justify-center">
-                          <span className="text-cyan-400 text-[10px]">◈</span>
+                          <span className="text-cyan-500 text-[10px]">◈</span>
                         </div>
-                        <div className="h-1.5 w-full rounded bg-white/15" />
-                        <div className="h-1.5 w-1/2 rounded bg-white/8" />
+                        <div
+                          className="h-1.5 w-full rounded"
+                          style={{ background: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.10)' }}
+                        />
+                        <div
+                          className="h-1.5 w-1/2 rounded"
+                          style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
+                        />
                       </div>
                     </div>
                   </div>
                   {/* Stats row */}
                   <div className="grid grid-cols-3 gap-2 mt-1">
                     {['Active Users', 'Revenue', 'Conversions'].map((label, i) => (
-                      <div key={label} className="rounded-lg border border-white/8 bg-white/3 p-2.5">
+                      <div
+                        key={label}
+                        className="rounded-lg border p-2.5 transition-colors duration-300"
+                        style={{
+                          borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)',
+                          background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                        }}
+                      >
                         <div className="text-[10px] text-muted-foreground/60 mb-1">{label}</div>
                         <div className="text-sm font-bold text-primary">{['2.4K', '$18K', '94%'][i]}</div>
                       </div>
@@ -210,7 +289,13 @@ export function HeroSection() {
                     <div className="flex-1 h-8 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center">
                       <span className="text-[10px] font-semibold text-primary">Deploy Live →</span>
                     </div>
-                    <div className="h-8 w-20 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                    <div
+                      className="h-8 w-20 rounded-lg border flex items-center justify-center transition-colors duration-300"
+                      style={{
+                        borderColor: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)',
+                        background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                      }}
+                    >
                       <span className="text-[10px] text-muted-foreground">Preview</span>
                     </div>
                   </div>
@@ -222,7 +307,13 @@ export function HeroSection() {
               <div className="absolute -top-5 -right-5 px-3 py-1.5 rounded-xl border border-primary/25 bg-primary/10 text-[11px] font-semibold text-primary backdrop-blur-sm shadow-lg">
                 ✓ Deployed in 3s
               </div>
-              <div className="absolute -bottom-4 -left-4 px-3 py-1.5 rounded-xl border border-white/15 bg-white/5 text-[11px] font-medium text-foreground/70 backdrop-blur-sm shadow-lg">
+              <div
+                className="absolute -bottom-4 -left-4 px-3 py-1.5 rounded-xl border text-[11px] font-medium text-foreground/70 backdrop-blur-sm shadow-lg transition-colors duration-300"
+                style={{
+                  borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.10)',
+                  background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
+                }}
+              >
                 🔗 200+ Integrations
               </div>
             </div>

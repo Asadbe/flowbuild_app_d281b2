@@ -6,7 +6,9 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  /* ─── DARK MODE (default) ─── */
+  :root,
+  .dark {
     --background: 220 30% 6%;
     --foreground: 214 38% 93%;
     --card: 222 28% 10%;
@@ -37,6 +39,50 @@
     --sidebar-ring: 160 100% 45%;
     --font-heading: 'Syne', sans-serif;
     --font-body: 'DM Sans', sans-serif;
+    /* Section bg tokens */
+    --bg-base: #0a0d12;
+    --bg-alt: #0d1018;
+    --bg-card: #111620;
+    --border-subtle: rgba(255,255,255,0.07);
+    --border-divider: rgba(255,255,255,0.06);
+  }
+
+  /* ─── LIGHT MODE ─── */
+  .light {
+    --background: 210 20% 98%;
+    --foreground: 220 30% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 30% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 30% 10%;
+    --primary: 160 80% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 16% 93%;
+    --secondary-foreground: 220 30% 15%;
+    --muted: 210 16% 93%;
+    --muted-foreground: 215 14% 42%;
+    --accent: 160 80% 35%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 18% 87%;
+    --input: 210 18% 90%;
+    --ring: 160 80% 35%;
+    --radius: 8px;
+    --sidebar-background: 210 20% 98%;
+    --sidebar-foreground: 220 30% 10%;
+    --sidebar-primary: 160 80% 35%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 16% 93%;
+    --sidebar-accent-foreground: 220 30% 15%;
+    --sidebar-border: 210 18% 87%;
+    --sidebar-ring: 160 80% 35%;
+    /* Section bg tokens */
+    --bg-base: #f4f6f9;
+    --bg-alt: #eef1f5;
+    --bg-card: #ffffff;
+    --border-subtle: rgba(0,0,0,0.07);
+    --border-divider: rgba(0,0,0,0.06);
   }
 }
 
@@ -49,14 +95,21 @@
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
   }
 }
 
-/* Hero texture – Obsidian grid */
+/* Hero texture – grid */
 .hero-texture {
+  background-image:
+    linear-gradient(rgba(128,128,128,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128,128,128,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.dark .hero-texture {
   background-image:
     linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
@@ -137,7 +190,7 @@
   left: 0;
   width: 0;
   height: 1.5px;
-  background: #00e5a0;
+  background: hsl(var(--primary));
   transition: width 0.25s ease;
 }
 .nav-link:hover::after {
@@ -146,7 +199,7 @@
 
 /* Pricing card popular glow */
 .plan-popular {
-  box-shadow: 0 0 0 1px #00e5a0, 0 0 40px rgba(0,229,160,0.15), inset 0 0 60px rgba(0,229,160,0.04);
+  box-shadow: 0 0 0 1px hsl(var(--primary)), 0 0 40px rgba(0,229,160,0.15), inset 0 0 60px rgba(0,229,160,0.04);
 }
 
 /* Feature card hover glow */
@@ -186,22 +239,38 @@
 
 /* Step connector */
 .step-connector {
-  background: linear-gradient(90deg, #00e5a0 0%, rgba(0,229,160,0.2) 100%);
+  background: linear-gradient(90deg, hsl(var(--primary)) 0%, rgba(0,229,160,0.2) 100%);
 }
 
 /* Toggle pill */
 .toggle-pill {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--border-subtle);
+  border: 1px solid var(--border-divider);
   border-radius: 100px;
 }
 .toggle-thumb {
-  background: #00e5a0;
+  background: hsl(var(--primary));
   border-radius: 100px;
   transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
 }
 
-/* Backdrop nav */
+/* Backdrop nav — dark mode */
+.dark .nav-scrolled {
+  background: rgba(10,13,18,0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Backdrop nav — light mode */
+.light .nav-scrolled {
+  background: rgba(244,246,249,0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+/* Fallback nav-scrolled for when no .dark/.light class present yet */
 .nav-scrolled {
   background: rgba(10,13,18,0.85);
   backdrop-filter: blur(16px);
@@ -209,7 +278,16 @@
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
-/* Mobile menu overlay */
+/* Mobile menu overlay — dark */
+.dark .mobile-menu {
+  background: rgba(10,13,18,0.98);
+  backdrop-filter: blur(20px);
+}
+/* Mobile menu overlay — light */
+.light .mobile-menu {
+  background: rgba(244,246,249,0.98);
+  backdrop-filter: blur(20px);
+}
 .mobile-menu {
   background: rgba(10,13,18,0.98);
   backdrop-filter: blur(20px);
@@ -222,8 +300,25 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(0,229,160,0.1);
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar — dark */
+.dark ::-webkit-scrollbar { width: 6px; }
+.dark ::-webkit-scrollbar-track { background: #0a0d12; }
+.dark ::-webkit-scrollbar-thumb { background: rgba(0,229,160,0.25); border-radius: 3px; }
+.dark ::-webkit-scrollbar-thumb:hover { background: rgba(0,229,160,0.45); }
+
+/* Custom scrollbar — light */
+.light ::-webkit-scrollbar { width: 6px; }
+.light ::-webkit-scrollbar-track { background: #eef1f5; }
+.light ::-webkit-scrollbar-thumb { background: rgba(0,150,100,0.25); border-radius: 3px; }
+.light ::-webkit-scrollbar-thumb:hover { background: rgba(0,150,100,0.45); }
+
+/* Default scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #0a0d12; }
 ::-webkit-scrollbar-thumb { background: rgba(0,229,160,0.25); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,229,160,0.45); }
+
+/* Theme transition for section backgrounds */
+section, footer, header {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Zap, LayoutGrid, Users, Database, Shield, Sparkles, Activity, Globe } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { fetchFeatures } from '@/lib/api';
+import { useTheme } from '@/context/ThemeContext';
 
 interface Feature {
   id?: string | number;
@@ -34,6 +35,8 @@ const CATEGORY_VARIANT: Record<string, 'builder' | 'ai' | 'team' | 'data' | 'def
 export function FeaturesSection() {
   const [features, setFeatures] = useState<Feature[]>([]);
   const [loading, setLoading] = useState(true);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     fetchFeatures()
@@ -48,7 +51,11 @@ export function FeaturesSection() {
   const displayFeatures = loading ? FALLBACK_FEATURES : features.length > 0 ? features : FALLBACK_FEATURES;
 
   return (
-    <section id="features" className="py-24 lg:py-32 relative" style={{ background: '#0a0d12' }}>
+    <section
+      id="features"
+      className="py-24 lg:py-32 relative transition-colors duration-300"
+      style={{ background: isDark ? '#0a0d12' : '#f4f6f9' }}
+    >
       <div className="absolute inset-0 hero-texture opacity-50 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
@@ -83,8 +90,11 @@ export function FeaturesSection() {
                 transition={{ duration: 0.4, delay: i * 0.07 }}
               >
                 <div
-                  className="feature-card h-full rounded-2xl border p-6 flex flex-col gap-4"
-                  style={{ background: '#111620', borderColor: 'rgba(255,255,255,0.07)' }}
+                  className="feature-card h-full rounded-2xl border p-6 flex flex-col gap-4 transition-colors duration-300"
+                  style={{
+                    background: isDark ? '#111620' : '#ffffff',
+                    borderColor: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)',
+                  }}
                 >
                   <div className="flex items-start justify-between">
                     <div className="w-10 h-10 rounded-xl bg-primary/12 border border-primary/20 flex items-center justify-center flex-shrink-0">

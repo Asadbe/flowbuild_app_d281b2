@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
+import { useTheme } from '@/context/ThemeContext';
 
 const FAQS = [
   {
@@ -34,8 +35,15 @@ const FAQS = [
 ];
 
 export function FAQSection() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
-    <section id="faq" className="py-24 lg:py-32 relative" style={{ background: '#0a0d12' }}>
+    <section
+      id="faq"
+      className="py-24 lg:py-32 relative transition-colors duration-300"
+      style={{ background: isDark ? '#0a0d12' : '#f4f6f9' }}
+    >
       <div className="absolute inset-0 hero-texture opacity-30 pointer-events-none" />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <motion.div

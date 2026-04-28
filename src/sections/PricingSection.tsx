@@ -4,6 +4,7 @@ import { Check, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { fetchPlans } from '@/lib/api';
+import { useTheme } from '@/context/ThemeContext';
 
 interface Plan {
   id?: string | number;
@@ -60,6 +61,8 @@ export function PricingSection() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
   const [yearly, setYearly] = useState(false);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     fetchPlans()
@@ -84,7 +87,11 @@ export function PricingSection() {
   };
 
   return (
-    <section id="pricing" className="py-24 lg:py-32 relative" style={{ background: '#0d1018' }}>
+    <section
+      id="pricing"
+      className="py-24 lg:py-32 relative transition-colors duration-300"
+      style={{ background: isDark ? '#0d1018' : '#eef1f5' }}
+    >
       <div className="absolute inset-0 hero-texture opacity-40 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
@@ -106,7 +113,13 @@ export function PricingSection() {
 
         {/* Toggle */}
         <div className="flex justify-center mb-12">
-          <div className="toggle-pill flex items-center gap-3 px-2 py-2">
+          <div
+            className="flex items-center gap-3 px-2 py-2 rounded-full border transition-colors duration-300"
+            style={{
+              background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)',
+              borderColor: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)',
+            }}
+          >
             <button
               onClick={() => setYearly(false)}
               className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer border-0 ${
@@ -142,15 +155,24 @@ export function PricingSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className={`relative flex flex-col rounded-2xl border p-8 ${
+                className={`relative flex flex-col rounded-2xl border p-8 transition-colors duration-300 ${
                   isPopular
                     ? 'plan-popular border-primary/60 scale-[1.03] z-10'
-                    : 'border-white/8 hover:border-white/15 transition-colors'
+                    : ''
                 }`}
                 style={{
                   background: isPopular
-                    ? 'linear-gradient(160deg, rgba(0,229,160,0.06) 0%, #111620 40%)'
-                    : '#111620',
+                    ? isDark
+                      ? 'linear-gradient(160deg, rgba(0,229,160,0.06) 0%, #111620 40%)'
+                      : 'linear-gradient(160deg, rgba(0,180,120,0.06) 0%, #ffffff 40%)'
+                    : isDark
+                    ? '#111620'
+                    : '#ffffff',
+                  borderColor: isPopular
+                    ? undefined
+                    : isDark
+                    ? 'rgba(255,255,255,0.08)'
+                    : 'rgba(0,0,0,0.07)',
                 }}
               >
                 {/* Popular badge */}
@@ -182,7 +204,10 @@ export function PricingSection() {
                 </div>
 
                 {/* Divider */}
-                <div className="h-px bg-white/8 mb-6" />
+                <div
+                  className="h-px mb-6 transition-colors duration-300"
+                  style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)' }}
+                />
 
                 {/* Features */}
                 <ul className="flex flex-col gap-3 mb-8 flex-1">

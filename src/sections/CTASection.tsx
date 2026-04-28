@@ -4,12 +4,15 @@ import { ArrowRight, Loader2, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { submitWaitlist } from '@/lib/api';
+import { useTheme } from '@/context/ThemeContext';
 
 export function CTASection() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +31,11 @@ export function CTASection() {
   };
 
   return (
-    <section id="cta" className="py-28 lg:py-36 relative overflow-hidden" style={{ background: '#0a0d12' }}>
+    <section
+      id="cta"
+      className="py-28 lg:py-36 relative overflow-hidden transition-colors duration-300"
+      style={{ background: isDark ? '#0a0d12' : '#f4f6f9' }}
+    >
       {/* Glow effect */}
       <div className="absolute inset-0 radial-glow-center pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/8 blur-[100px] pointer-events-none" />
@@ -75,7 +82,11 @@ export function CTASection() {
                 placeholder="Enter your work email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 h-12 bg-white/5 border-white/12 text-base"
+                className="flex-1 h-12 text-base"
+                style={{
+                  background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)',
+                  borderColor: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)',
+                }}
                 required
               />
               <Button

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '@/context/ThemeContext';
 
 const STEPS = [
   {
@@ -30,8 +31,15 @@ const INTEGRATIONS = [
 ];
 
 export function HowItWorksSection() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
-    <section id="how-it-works" className="py-24 lg:py-32 relative overflow-hidden" style={{ background: '#0d1018' }}>
+    <section
+      id="how-it-works"
+      className="py-24 lg:py-32 relative overflow-hidden transition-colors duration-300"
+      style={{ background: isDark ? '#0d1018' : '#eef1f5' }}
+    >
       <div className="absolute inset-0 hero-texture opacity-40 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
@@ -64,7 +72,11 @@ export function HowItWorksSection() {
               {/* Big decorative number */}
               <div
                 className="absolute -top-4 left-1/2 -translate-x-1/2 text-[80px] font-black leading-none select-none pointer-events-none"
-                style={{ color: 'rgba(255,255,255,0.03)', fontFamily: 'var(--font-heading)', zIndex: 0 }}
+                style={{
+                  color: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.04)',
+                  fontFamily: 'var(--font-heading)',
+                  zIndex: 0,
+                }}
               >
                 {step.number}
               </div>
@@ -86,7 +98,11 @@ export function HowItWorksSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="border-t border-b border-white/6 py-8"
+          className="py-8"
+          style={{
+            borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+            borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+          }}
         >
           <p className="text-center text-xs text-muted-foreground/60 uppercase tracking-widest font-medium mb-6">
             200+ integrations ready to plug in

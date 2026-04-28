@@ -4,6 +4,7 @@ import { Star } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { fetchTestimonials } from '@/lib/api';
 import { getInitials, hashColor } from '@/lib/utils';
+import { useTheme } from '@/context/ThemeContext';
 
 interface Testimonial {
   id?: string | number;
@@ -59,6 +60,8 @@ const STATS = [
 export function TestimonialsSection() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     fetchTestimonials()
@@ -73,7 +76,11 @@ export function TestimonialsSection() {
   const display = loading || testimonials.length === 0 ? FALLBACK_TESTIMONIALS : testimonials;
 
   return (
-    <section id="testimonials" className="py-24 lg:py-32 relative" style={{ background: '#0a0d12' }}>
+    <section
+      id="testimonials"
+      className="py-24 lg:py-32 relative transition-colors duration-300"
+      style={{ background: isDark ? '#0a0d12' : '#f4f6f9' }}
+    >
       <div className="absolute inset-0 hero-texture opacity-40 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
@@ -96,11 +103,24 @@ export function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16 rounded-2xl border border-white/8 p-8"
-          style={{ background: '#111620' }}
+          className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16 rounded-2xl border p-8 transition-colors duration-300"
+          style={{
+            background: isDark ? '#111620' : '#ffffff',
+            borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)',
+          }}
         >
           {STATS.map((stat, i) => (
-            <div key={stat.label} className={`flex flex-col items-center text-center ${i < STATS.length - 1 ? 'sm:border-r border-white/8' : ''}`}>
+            <div
+              key={stat.label}
+              className={`flex flex-col items-center text-center ${
+                i < STATS.length - 1
+                  ? `sm:border-r`
+                  : ''
+              }`}
+              style={{
+                borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)',
+              }}
+            >
               <span className="stat-number text-4xl sm:text-5xl font-black mb-2">{stat.value}</span>
               <span className="text-sm text-muted-foreground">{stat.label}</span>
             </div>
@@ -116,8 +136,11 @@ export function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="rounded-2xl border p-7 flex flex-col gap-4 hover:border-white/15 transition-colors"
-              style={{ background: '#111620', borderColor: 'rgba(255,255,255,0.07)' }}
+              className="rounded-2xl border p-7 flex flex-col gap-4 transition-colors duration-300"
+              style={{
+                background: isDark ? '#111620' : '#ffffff',
+                borderColor: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)',
+              }}
             >
               {/* Stars */}
               <div className="flex gap-1">
@@ -128,7 +151,10 @@ export function TestimonialsSection() {
               {/* Quote */}
               <p className="text-foreground/90 leading-relaxed text-sm flex-1">&ldquo;{t.quote}&rdquo;</p>
               {/* Author */}
-              <div className="flex items-center gap-3 pt-2 border-t border-white/6">
+              <div
+                className="flex items-center gap-3 pt-2 border-t transition-colors duration-300"
+                style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)' }}
+              >
                 <Avatar className="w-10 h-10">
                   {t.avatar_url ? (
                     <AvatarImage src={t.avatar_url} alt={t.author_name} />
